@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Cloud, ExternalLink, FileInput, LogOut, PenTool, Palette, RefreshCw, Info } from 'lucide-react';
-import { platform } from '../platform';
+import { osName, platform } from '../platform';
 import { useSettings, type ThemeMode } from '../state/settings';
 import { useUI } from '../state/ui';
 import { DEFAULT_ROOT, syncManager, useSync } from '../sync/manager';
@@ -290,7 +290,7 @@ export function SettingsDialog() {
             </button>
           </div>
         ) : (
-          <p className="hint">Der Import aus OneNote ist in der Windows-App verfügbar. Importierte Notizbücher erscheinen danach über Nextcloud auch hier.</p>
+          <p className="hint">Der Import aus OneNote ist in der Desktop-App (Windows und Linux) verfügbar. Importierte Notizbücher erscheinen danach über Nextcloud auch hier.</p>
         )}
       </section>
       <section className="settings-section">
@@ -353,7 +353,7 @@ export function SettingsDialog() {
           <Info size={17} /> Info
         </h3>
         <p className="hint">
-          NextNote {APP_VERSION} · {platform.kind === 'electron' ? 'Windows' : platform.kind === 'android' ? 'Android' : 'Browser'}. Notizbücher werden als Ordner mit
+          NextNote {APP_VERSION} · {platform.kind === 'electron' ? osName(window.nextnoteNative?.os ?? '') : platform.kind === 'android' ? 'Android' : 'Browser'}. Notizbücher werden als Ordner mit
           JSON-Dateien und Bildern in deiner Nextcloud gespeichert. Gelöschte Dateien landen im Nextcloud-Papierkorb.
         </p>
       </section>

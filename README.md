@@ -113,6 +113,20 @@ Fertige Dateien gibt es unter [**Releases**](https://github.com/grunch2001/NextN
 
 Das Installationsprogramm ist nicht code-signiert. Windows SmartScreen meldet deshalb eventuell „Der Computer wurde durch Windows geschützt“. Weiter geht es über **Weitere Informationen → Trotzdem ausführen**.
 
+### Linux (CachyOS, Arch und andere)
+
+Für Arch-basierte Systeme wie CachyOS gibt es ein pacman-Paket:
+
+```bash
+sudo pacman -U nextnote-<version>-x64.pkg.tar.xz
+```
+
+Die App liegt dann unter `/opt/NextNote`, startet über das Anwendungsmenü oder mit `nextnote`. Empfohlen sind zusätzlich `ttf-carlito` (Ersatz für die Schrift Calibri) und `hunspell-de` (deutsche Rechtschreibprüfung).
+
+Auf anderen Distributionen geht es ohne Installation mit `NextNote-<version>-x86_64.AppImage`: ausführbar machen (`chmod +x`) und starten.
+
+Das App-Passwort verschlüsselt NextNote mit dem Schlüsselbund des Desktops (KWallet unter KDE Plasma, GNOME Keyring unter GNOME). Läuft keiner, wird es unverschlüsselt in `~/.config/NextNote/secure.json` gespeichert (nur für deinen Benutzer lesbar).
+
 ### Android
 
 1. `NextNote-<version>.apk` auf das Gerät laden (z. B. über die Nextcloud-App oder per USB).
@@ -189,7 +203,7 @@ NextNote/
 
 ### Und auf dem Gerät
 
-Jedes Gerät hält eine lokale Kopie in der App-Datenbank (Windows: `%APPDATA%\NextNote`, Android: privater App-Speicher). So funktioniert NextNote auch offline.
+Jedes Gerät hält eine lokale Kopie in der App-Datenbank (Windows: `%APPDATA%\NextNote`, Linux: `~/.config/NextNote`, Android: privater App-Speicher). So funktioniert NextNote auch offline.
 
 - **Notizbücher:** vollständig lokal, auch geschlossene. Geschlossene werden nur nicht mehr synchronisiert.
 - **PDFs:** nur die, die du auf diesem Gerät schon einmal geöffnet hast, und nur solange ihr Notizbuch geöffnet ist. Gespeichert werden die PDF ohne NextNote-Anmerkungen und die Anmerkungen getrennt davon; beim Hochladen wird daraus wieder eine PDF. Heruntergeladen wird eine PDF nur, wenn sie sich in Nextcloud geändert hat, nicht bei jedem Öffnen.
@@ -240,6 +254,14 @@ npm run dist:win          # → release/NextNote-Setup-x.y.z.exe und release/Nex
 ```
 
 Das Skript läuft unter Linux oder WSL. Beim ersten Mal lädt es eine portable Windows-Node nach `.tools/` (mit Prüfsumme), weil der NSIS-Schritt sonst Wine bräuchte. Wird aus einem VS-Code-Terminal gebaut, ist dort `ELECTRON_RUN_AS_NODE=1` gesetzt; das Skript entfernt die Variable für Windows-Prozesse.
+
+### Linux-Version bauen
+
+```bash
+npm run dist:linux        # → release/NextNote-x.y.z-x86_64.AppImage und release/nextnote-x.y.z-x64.pkg.tar.xz
+```
+
+Für das pacman-Paket muss `bsdtar` installiert sein (unter Arch in `libarchive`, unter Debian/Ubuntu in `libarchive-tools`).
 
 ### Android-Version bauen
 

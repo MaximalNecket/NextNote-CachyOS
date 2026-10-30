@@ -1,6 +1,7 @@
 {
   "name": "nextnote",
   "productName": "NextNote",
+  "desktopName": "nextnote.desktop",
   "version": "1.3.0",
   "description": "OneNote-artige Notiz-App mit Nextcloud-Synchronisierung",
   "private": true,
@@ -17,6 +18,7 @@
     "mock-nextcloud": "node tools/mock-nextcloud-server.ts",
     "electron:build-main": "node tools/build-electron.mjs",
     "dist:win": "bash tools/build-windows.sh",
+    "dist:linux": "bash tools/build-linux.sh",
     "android:sync": "npm run build && cap sync android",
     "icons": "node tools/make-icons.mjs",
     "dist:android": "bash tools/build-android.sh",
@@ -115,6 +117,54 @@
       "language": "1031",
       "artifactName": "NextNote-Setup-${version}.exe",
       "deleteAppDataOnUninstall": false
+    },
+    "linux": {
+      "target": [
+        {
+          "target": "AppImage",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "pacman",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "build-resources/icon.png",
+      "category": "Office",
+      "executableName": "nextnote",
+      "synopsis": "OneNote-artige Notizen mit Nextcloud-Synchronisierung",
+      "maintainer": "Luis Schuster",
+      "artifactName": "NextNote-${version}-${arch}.${ext}",
+      "desktop": {
+        "entry": {
+          "StartupWMClass": "NextNote",
+          "Keywords": "Notizen;Notizbuch;OneNote;Nextcloud;Stift;PDF;"
+        }
+      },
+      "syncDesktopName": true
+    },
+    "pacman": {
+      "artifactName": "nextnote-${version}-${arch}.pkg.tar.xz",
+      "depends": [
+        "gtk3",
+        "nss",
+        "alsa-lib",
+        "libxss",
+        "libxtst",
+        "libnotify",
+        "libsecret",
+        "xdg-utils",
+        "at-spi2-core",
+        "util-linux-libs"
+      ],
+      "fpm": [
+        "--description",
+        "OneNote-artige Notiz-App mit Nextcloud-Synchronisierung"
+      ]
     },
     "electronLanguages": [
       "de",

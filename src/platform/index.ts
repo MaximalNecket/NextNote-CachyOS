@@ -79,10 +79,12 @@ function lowerHeaders(h: Record<string, string>): Record<string, string> {
   return out;
 }
 
+export const osName = (os: string) => (os === 'win32' ? 'Windows' : os === 'linux' ? 'Linux' : os === 'darwin' ? 'macOS' : os);
+
 function electronPlatform(bridge: ElectronBridge): Platform {
   return {
     kind: 'electron',
-    deviceName: `NextNote (${bridge.os === 'win32' ? 'Windows' : bridge.os})`,
+    deviceName: `NextNote (${osName(bridge.os)})`,
     async http(req: HttpRequest): Promise<HttpResponse> {
       const res = await bridge.http({ method: req.method, url: req.url, headers: req.headers ?? {}, body: toBytes(req.body), timeoutMs: req.timeoutMs });
       if (!res.ok) throw new NetworkError(res.error);
